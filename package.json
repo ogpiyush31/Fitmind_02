@@ -1,0 +1,28 @@
+{
+  "name": "fitmind",
+  "version": "1.0.0",
+  "description": "FitMind is a mental fitness journal designed to help users track their daily moods, analyze their sentiments, and receive uplifting messages. This project consists of a backend built with Node.js and Express, and a frontend developed using React.",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "npm run dev", 
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd backend && nodemon src/app.js", 
+    "client": "cd frontend && react-scripts start", 
+    "build": "cd frontend && react-scripts build", 
+    "test": "cd frontend && react-scripts test", 
+    "backend-install": "cd backend && npm install", 
+    "frontend-install": "cd frontend && npm install" 
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "sentiment": "^5.0.2"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "nodemon": "^3.1.9"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
