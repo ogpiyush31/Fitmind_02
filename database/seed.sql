@@ -1,6 +1,7 @@
 -- You may want to insert a sample user first to satisfy the foreign key constraint
+-- Insert a secure demo user (password = 'demo1234')
 INSERT INTO users (username, email, password) VALUES
-('demo_user', 'demo@example.com', 'hashedpassword123'); -- Replace with actual hashed password
+('demo_user', 'demo@example.com', '$2a$10$ZpVFOJUtF4IjvHJxK8OncOEd8LU8ACcTgHFAvQqFxvCuvMB4W5XLu');
 
 -- Insert mood entries for user_id = 1
 INSERT INTO moods (user_id, date, mood, notes, sentiment, subjectivity) VALUES

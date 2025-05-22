@@ -33,4 +33,4 @@ const UpliftingMessages = () => {
     );
 };
 
-export default UpliftingMessages;
+export default UpliftingMessages

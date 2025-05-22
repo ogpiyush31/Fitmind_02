@@ -1,0 +1,197 @@
+/* Reset + Layout */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding-top: 100px; /* Ensures space for the title above the card */
+}
+
+/* Title Banner */
+.title-banner {  
+  position: absolute;
+  top: 250px;
+  width: 100%;
+  text-align: center;
+  font-size: 50px;
+  font-weight: bold;
+  color: rgb(180, 151, 151);
+  animation: fadeInDown 1s ease-out;
+}
+
+/* Login Card */
+.login-card {
+  background-color: #b5a8a8;
+  border-radius: 12px;
+  padding: 40px 30px;
+  width: 350px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Avatar */
+.avatar-wrapper {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: #e0f7fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: popIn 0.8s ease;
+}
+
+.emoji {
+  font-size: 48px;
+}
+
+/* Form */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  text-align: left;
+}
+
+.login-form label {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.login-form input {
+  padding: 10px;
+  font-size: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s;
+}
+
+.login-form input:focus {
+  outline: none;
+  border-color: #00bcd4;
+}
+
+.login-form button {
+  background-color: #00bcd4;
+  color: white;
+  padding: 12px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+}
+
+.login-form button:hover {
+  background-color: #0097a7;
+}
+/* Register page shares login styles */
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  text-align: left;
+}
+
+/* Shared error and feedback message styles */
+.error-msg {
+  color: #ff4444;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 5px;
+}
+
+.success-msg {
+  color: #00e676;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 5px;
+}
+
+/* Logout button (top-right corner or inline) */
+button.logout-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: #ff5252;
+  color: white;
+  padding: 8px 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button.logout-button:hover {
+  background-color: #d32f2f;
+}
+
+/* Link prompt (login/register navigation) */
+.auth-link-prompt {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #fff;
+}
+
+.auth-link-prompt a {
+  color: #00e5ff;
+  text-decoration: none;
+}
+
+.auth-link-prompt a:hover {
+  text-decoration: underline;
+}
+
+
+/* Animations */
+@keyframes popIn {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

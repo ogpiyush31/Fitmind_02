@@ -9,4 +9,4 @@ module.exports = function analyzeSentiment(text) {
         subjectivity: result.comparative
     };
 };
-;
+

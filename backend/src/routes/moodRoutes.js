@@ -3,15 +3,18 @@ const router = express.Router();
 const MoodController = require('../controllers/moodController');
 const MoodModel = require('../models/moodModel');
 
-// Use controller and model
 const moodController = new MoodController(MoodModel);
 
-// Route to save mood
+// POST /api/moods - Save mood
 router.post('/moods', (req, res) => moodController.saveMood(req, res));
 
-// Route to get weekly mood
+// ✅ GET /api/moods/weekly?user_id=xx - Weekly mood for logged-in user
 router.get('/moods/weekly', (req, res) => moodController.getWeeklyMood(req, res));
 
 module.exports = (app) => {
-    app.use('/api', router);
+  app.use('/api', router);
 };
+
+
+
+

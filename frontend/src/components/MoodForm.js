@@ -1,25 +1,34 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { saveMood } from '../services/api';
 import { motion } from 'framer-motion';
-import { Smile, Heart, Send } from 'lucide-react';
+import { Smile, Heart, Send, BarChart } from 'lucide-react';
 
 const MoodForm = () => {
   const [mood, setMood] = useState('');
   const [feelings, setFeelings] = useState('');
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage('');
+
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      setMessage('❌ You must be logged in to submit mood.');
+      return;
+    }
+
     try {
-      // ✅ Use 'notes' instead of 'feelings'
-      await saveMood({ mood, notes: feelings });
+      await saveMood({ userId, mood, notes: feelings });
       setMessage('✅ Mood saved successfully!');
       setMood('');
       setFeelings('');
-      setTimeout(() => setMessage(''), 3000);
     } catch (error) {
       console.error('Error saving mood:', error);
       setMessage('❌ Error saving mood. Please try again.');
+    } finally {
       setTimeout(() => setMessage(''), 3000);
     }
   };
@@ -68,9 +77,19 @@ const MoodForm = () => {
         </motion.button>
       </form>
 
+      <motion.button
+        className="submit"
+        style={{ marginTop: '15px', backgroundColor: '#0097a7' }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={() => navigate('/mood-chart')}
+      >
+        <BarChart className="icon" /> View Mood Chart
+      </motion.button>
+
       {message && (
         <motion.div
-          className={`feedback ${message.includes('Error') ? 'error' : 'success'}`}
+          className={`feedback ${message.includes('Error') || message.includes('❌') ? 'error' : 'success'}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
@@ -82,3 +101,6 @@ const MoodForm = () => {
 };
 
 export default MoodForm;
+
+
+
