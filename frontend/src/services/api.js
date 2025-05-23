@@ -1,18 +1,18 @@
 import axios from 'axios';
 
-const API_BASE_URL = `${process.env.REACT_APP_API_URL}/api`;
-
+// ✅ Correct base URL from .env
+const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api`;
 
 // ✅ Save Mood Entry
-export const saveMood = async (moodData) => {
+export const saveMood = async ({ mood, notes }) => {
   try {
     const userId = localStorage.getItem('userId');
     if (!userId) throw new Error('User not logged in.');
 
-    // Send mood data along with user_id (as required by backend)
     const payload = {
-      ...moodData,
-      user_id: parseInt(userId), // ensure it's a number
+      user_id: parseInt(userId),
+      mood,
+      notes,
     };
 
     const response = await axios.post(`${API_BASE_URL}/moods`, payload);
@@ -30,7 +30,7 @@ export const getWeeklyMood = async () => {
     if (!userId) throw new Error('User not logged in.');
 
     const response = await axios.get(`${API_BASE_URL}/moods/weekly`, {
-      params: { user_id: parseInt(userId) }, // match backend param
+      params: { user_id: parseInt(userId) },
     });
 
     return response.data;
