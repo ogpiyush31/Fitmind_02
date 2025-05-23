@@ -12,7 +12,7 @@
     "react-chartjs-2": "^4.3.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.30.0",
-    "react-scripts": "4.0.3"
+    "react-scripts": "^4.0.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -40,7 +40,6 @@
   },
   "proxy": "http://localhost:5000",
   "engines": {
-    "node": "20.x"
+    "node": "16.x"
   }
 }
-
