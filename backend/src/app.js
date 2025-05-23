@@ -10,9 +10,14 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // ✅ Middleware
+const allowedOrigins = [
+  'http://localhost:5173', // Vite dev server
+  'https://fitmind-02.onrender.com' // Your deployed frontend
+];
+
 app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true
+  origin: allowedOrigins,
+  credentials: true,
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
