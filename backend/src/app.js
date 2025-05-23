@@ -9,14 +9,9 @@ const authRoutes = require('./routes/authRoutes');
 const app = express();
 const port = process.env.PORT || 5000;
 
-// ✅ Middleware
-const allowedOrigins = [
-  'http://localhost:5173', // Vite dev server
-  'https://fitmind-02.onrender.com' // Your deployed frontend
-];
-
+// ✅ Middlewarenpm
 app.use(cors({
-  origin: allowedOrigins,
+  origin: ["http://localhost:5173", "http://localhost:3000", "https://fitmind-02.onrender.com"],
   credentials: true,
 }));
 app.use(express.json());
