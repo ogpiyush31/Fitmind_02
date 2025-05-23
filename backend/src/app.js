@@ -11,7 +11,7 @@ const port = process.env.PORT || 5000;
 
 // ✅ Middlewarenpm
 app.use(cors({
-  origin: ["http://localhost:5173", "http://localhost:3000", "https://fitmind-02.onrender.com"],
+  origin: ["http://localhost:5173", "http://localhost:3000", "https://fitmind-02.onrender.com","https://fitmind-frontend-tfhb.vercel.app"],
   credentials: true,
 }));
 app.use(express.json());
