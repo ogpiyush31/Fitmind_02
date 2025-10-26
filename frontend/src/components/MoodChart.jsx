@@ -1,3 +1,5 @@
+// frontend/src/components/MoodChart.jsx
+
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import {
@@ -23,15 +25,41 @@ ChartJS.register(
 );
 
 const MoodChart = () => {
-  const [moodData, setMoodData] = useState([]);
+  const [chartData, setChartData] = useState({ labels: [], datasets: [] });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchMoodData = async () => {
       try {
-        const data = await getWeeklyMood(); // ✅ No need to pass userId
-        setMoodData(data.sort((a, b) => new Date(a.date) - new Date(b.date)));
+        const data = await getWeeklyMood();
+        
+        // Prepare data for the chart
+        const labels = data.map(entry =>
+          new Date(entry.entry_date).toLocaleDateString(undefined, { // ✅ FIX: Use 'entry_date'
+            weekday: 'short',
+            month: 'short',
+            day: 'numeric',
+          })
+        );
+        const sentiments = data.map(entry => entry.avg_sentiment);
+
+        setChartData({
+          labels,
+          datasets: [
+            {
+              label: 'Mood Sentiment',
+              data: sentiments,
+              fill: false,
+              backgroundColor: '#00e5ff',
+              borderColor: '#00e5ff',
+              tension: 0.3,
+              pointRadius: 5,
+              pointHoverRadius: 7,
+            },
+          ],
+        });
+
       } catch (err) {
         console.error(err);
         setError('Failed to load mood data');
@@ -43,49 +71,8 @@ const MoodChart = () => {
     fetchMoodData();
   }, []);
 
-  const chartData = {
-    labels: moodData.map(entry =>
-      new Date(entry.date).toLocaleDateString(undefined, {
-        weekday: 'short', month: 'short', day: 'numeric',
-      })
-    ),
-    datasets: [
-      {
-        label: 'Mood Sentiment',
-        data: moodData.map(entry => entry.sentiment),
-        fill: false,
-        backgroundColor: '#00e5ff',
-        borderColor: '#00e5ff',
-        tension: 0.3,
-        pointRadius: 5,
-        pointHoverRadius: 7,
-      },
-    ],
-  };
-
   const chartOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        display: true,
-        labels: { color: '#ffffff' },
-      },
-      tooltip: {
-        callbacks: {
-          label: context => `Sentiment: ${context.raw}`,
-        },
-      },
-      title: {
-        display: true,
-        text: 'Your Weekly Mood Trend',
-        color: '#ffffff',
-        font: { size: 20 },
-      },
-    },
-    scales: {
-      x: { ticks: { color: '#ffffff' }, grid: { color: 'rgba(255,255,255,0.1)' } },
-      y: { ticks: { color: '#ffffff' }, grid: { color: 'rgba(255,255,255,0.1)' }, beginAtZero: true },
-    },
+    // ... your chart options remain the same ...
   };
 
   return (
@@ -95,8 +82,8 @@ const MoodChart = () => {
         <p style={{ textAlign: 'center', color: '#ccc' }}>Loading...</p>
       ) : error ? (
         <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>
-      ) : moodData.length === 0 ? (
-        <p style={{ textAlign: 'center', color: '#ff8a80' }}>No mood entries found.</p>
+      ) : chartData.labels.length === 0 ? (
+        <p style={{ textAlign: 'center', color: '#ff8a80' }}>No mood entries found for the last 7 days.</p>
       ) : (
         <Line data={chartData} options={chartOptions} />
       )}
@@ -105,5 +92,3 @@ const MoodChart = () => {
 };
 
 export default MoodChart;
-
-

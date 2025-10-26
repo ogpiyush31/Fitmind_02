@@ -1,141 +1,291 @@
+/* === Enhanced style.css for FitMind (v2) === */
+
+/* --- Google Fonts Import --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* --- Root Variables for Easy Theming --- */
+:root {
+  --font-sans: 'Inter', sans-serif;
+  --bg-gradient-start: #1D2B34;
+  --bg-gradient-end: #0F172A;
+  --primary-accent: #22D3EE; /* Bright Cyan */
+  --primary-accent-dark: #0E7490;
+  --secondary-accent: #34D399; /* Emerald Green */
+  --text-primary: #F1F5F9;
+  --text-secondary: #94A3B8;
+  --glass-bg: rgba(30, 41, 59, 0.5);
+  --glass-border: rgba(148, 163, 184, 0.2);
+  --shadow-color: rgba(0, 0, 0, 0.25);
+  --error-color: #F87171;
+  --success-color: #4ADE80;
+}
+
+/* --- General Body & Layout Styling --- */
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  height: 100vh;
+  font-family: var(--font-sans);
+  background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#root {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  color: white;
-  position: relative;
+  width: 100%;
 }
+
+/* --- Main App Container & Header --- */
+.app-container {
+  width: 100%;
+  max-width: 1400px; /* Wider container */
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+
+/* ✅ UPDATED: Header layout using Flexbox for correct alignment */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  border: 1px solid var(--glass-border);
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 32px 0 var(--shadow-color);
+}
+
+.header-left {
+  flex: 1; /* Takes up 1/3 of the space */
+  display: flex;
+  justify-content: flex-start;
+}
+
+.header-left .hello-banner {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.header-right {
+  flex: 1; /* Takes up 1/3 of the space */
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1.5rem; /* Space between date and logout button */
+}
+
+.header-right .date-display {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* --- Navigation --- */
+.app-nav {
+  flex: 1; /* Takes up 1/3 of the space */
+  display: flex;
+  justify-content: center; /* Center the navigation links */
+  gap: 2.5rem; /* Increased space between links */
+}
+
+.nav-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 0;
+  border-bottom: 2px solid transparent;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+/* This style applies when NavLink is active */
+.nav-link.active {
+  color: var(--text-primary);
+  border-bottom-color: var(--primary-accent);
+}
+
+.nav-link:not(.active):hover {
+    color: var(--text-primary);
+}
+
+
+/* --- Main Content --- */
+.app-main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .main-heading {
-  font-size: 32px;
-  color: #ffffff;
-  font-weight: bold;
-  margin-bottom: 15px;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   text-align: center;
 }
 
-
+/* --- Glass Form Styling --- */
 .glass-form {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--glass-bg);
   backdrop-filter: blur(12px);
-  padding: 40px;
-  border-radius: 20px;
-  width: 400px;
-  max-width: 90vw;
+  padding: 2.5rem;
+  border-radius: 1.5rem;
+  width: 100%;
+  max-width: 500px;
   text-align: center;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
-  margin: 0 auto; /* horizontal center fallback */
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 var(--shadow-color);
+  margin-top: 1rem;
 }
 
-
-.title {
-  font-size: 3rem;
-  font-weight: bold;
-  color: #827f80;
-  margin-bottom: 10px;
-  text-align: center;
+.form-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
 }
 
-.subtitle {
-  font-size: 1.5rem;
-  color: #ccc;
-  margin-bottom: 30px;
+.form-subtitle {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  text-align: left;
 }
 
 .label {
   display: block;
-  text-align: left;
-  margin-bottom: 20px;
-  color: #fff;
-  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
-.icon {
-  margin-right: 8px;
-  vertical-align: middle;
-  color: #00f7ff;
-}
-
-.input,
 .textarea {
   width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.15);
-  border: none;
-  color: #fff;
-  font-size: 0.95rem;
+  box-sizing: border-box;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: rgba(15, 23, 42, 0.5); /* Darker inner background */
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  font-size: 1rem;
   outline: none;
-  margin-top: 5px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  resize: vertical;
+  min-height: 80px;
+}
+
+.textarea:focus {
+  border-color: var(--primary-accent);
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.3);
+}
+
+/* --- Buttons --- */
+.submit, .chart-toggle-button, .logout-button {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  box-sizing: border-box;
 }
 
 .submit {
-  width: 100%;
-  background: #00d9c0;
-  color: white;
-  padding: 14px;
-  border: none;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition: background 0.3s;
-  margin-top: 10px;
+  background: var(--primary-accent);
+  color: var(--bg-gradient-end);
 }
 
 .submit:hover {
-  background: #00bfa6;
+  background: var(--primary-accent-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(34, 211, 238, 0.2);
 }
 
+.submit:disabled {
+  background-color: var(--text-secondary);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.chart-toggle-button {
+  background: var(--secondary-accent);
+  color: var(--bg-gradient-end);
+  margin-top: 1.5rem;
+}
+
+.chart-toggle-button:hover {
+  background: #2aa779;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(52, 211, 153, 0.2);
+}
+
+.logout-button {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--glass-border);
+    width: auto;
+    padding: 0.5rem 1rem;
+}
+
+.logout-button:hover {
+    background: var(--error-color);
+    color: var(--text-primary);
+    border-color: var(--error-color);
+}
+
+
+/* --- Feedback & AI Responses --- */
 .feedback {
-  margin-top: 15px;
-  font-weight: bold;
-}
-
-.success {
-  color: #a0ffae;
-}
-
-.error {
-  color: #ff8a80;
-}
-
-.date-display {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  color: #ccc;
+  margin-top: 1.5rem;
   font-weight: 500;
 }
-/* 👋 Hello banner styling */
 
-.hello-banner {
-  position: absolute;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+.success { color: var(--success-color); }
+.error { color: var(--error-color); }
+
+.ai-dialogue-container, .motivational-quote {
+  margin: 2rem 0;
+  padding: 1rem 1.5rem;
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 0.75rem;
+  border-left: 4px solid var(--primary-accent);
+  font-style: italic;
+  text-align: left;
+}
+
+.mood-art-container {
+  margin-top: 2rem;
   text-align: center;
-  font-size: 26px;
-  color: #ffffff;
+}
+
+.mood-art-container h3 {
+  font-size: 1.5rem;
   font-weight: 600;
-  background-color: rgba(0, 0, 0, 0.3);
-  padding: 8px 20px;
-  border-radius: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  z-index: 10;
+  margin-bottom: 1rem;
+}
+
+.mood-art-container img {
+  max-width: 100%;
+  border-radius: 1rem;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 4px 20px var(--shadow-color);
 }
 
 

@@ -1,75 +1,119 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { saveMood } from '../services/api';
-import { motion } from 'framer-motion';
-import { Smile, Heart, Send, BarChart } from 'lucide-react';
+// src/components/MoodForm.jsx
 
-const MoodForm = () => {
-  const [mood, setMood] = useState('');
-  const [feelings, setFeelings] = useState('');
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { saveMood } from '../services/api';
+
+function MoodForm() {
+  const [notes, setNotes] = useState('');
+  const [journal, setJournal] = useState('');
   const [message, setMessage] = useState('');
-  const navigate = useNavigate();
+  const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [generatedImage, setGeneratedImage] = useState(null);
+  const [aiResponse, setAiResponse] = useState(null); // State for AI text response
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage('');
-    const userId = localStorage.getItem('userId');
-    if (!userId) return setMessage('❌ You must be logged in to submit mood.');
+    if (!journal.trim()) {
+      setMessage('Please write a journal entry to analyze your mood.');
+      setIsError(true);
+      return;
+    }
+
+    // --- Start loading state ---
+    setIsLoading(true);
+    setGeneratedImage(null);
+    setAiResponse(null); // Clear previous AI text
+    setMessage('Your AI companion is reflecting...');
+    setIsError(false);
 
     try {
-      await saveMood({ userId, mood, notes: feelings });
-      setMessage('✅ Mood saved successfully!');
-      setMood('');
-      setFeelings('');
-    } catch (err) {
-      console.error(err);
-      setMessage('❌ Error saving mood. Please try again.');
+      // Call the API, which now returns both the image and AI text
+      const response = await saveMood({ notes, journal });
+      
+      setMessage('✅ Analysis Complete!');
+      setGeneratedImage(response.imageUrl); // Set the new image
+      setAiResponse(response.aiResponse); // Set the new text response
+      
+      // Clear the form fields
+      setNotes('');
+      setJournal('');
+
+    } catch (error) {
+      setMessage('❌ An error occurred. Please try again.');
+      setIsError(true);
     } finally {
-      setTimeout(() => setMessage(''), 3000);
+      setIsLoading(false); // Stop loading
     }
   };
 
   return (
-    <motion.div className="glass-form" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-      <h1 className="title">🧠 FitMind</h1>
-      <p className="subtitle">Track your mental fitness daily.</p>
+    <div className="glass-form">
+      <h2 className="form-title">🧠 How was your day?</h2>
+      <p className="form-subtitle">Describe your thoughts below for a unique piece of art and a reflective question.</p>
 
-      <form onSubmit={handleSubmit} className="form">
-        <label className="label">
-          <Smile className="icon" /> Mood
-          <input type="text" value={mood} onChange={e => setMood(e.target.value)} className="input" required />
-        </label>
-
-        <label className="label">
-          <Heart className="icon" /> What’s going on?
-          <textarea value={feelings} onChange={e => setFeelings(e.target.value)} className="textarea" required />
-        </label>
-
-        <motion.button type="submit" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="submit">
-          <Send className="icon" /> Save Mood
-        </motion.button>
+      <form onSubmit={handleSubmit} noValidate>
+        {/* Text area inputs for notes and journal */}
+        <div className="form-group">
+          <label htmlFor="notes" className="label">Summary (Optional)</label>
+          <textarea 
+            id="notes" 
+            className="textarea" 
+            value={notes} 
+            onChange={(e) => setNotes(e.target.value)} 
+            placeholder="A brief note about your day..." 
+            disabled={isLoading}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="journal" className="label">Journal Entry</label>
+          <textarea 
+            id="journal" 
+            className="textarea" 
+            value={journal} 
+            onChange={(e) => setJournal(e.target.value)} 
+            placeholder="Write about your day in detail here..." 
+            required 
+            disabled={isLoading}
+          />
+        </div>
+        <button type="submit" className="submit" disabled={isLoading}>
+          {isLoading ? 'Reflecting...' : 'Save & Analyze'}
+        </button>
       </form>
 
-      <motion.button
-        className="submit"
-        style={{ marginTop: '15px', backgroundColor: '#0097a7' }}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        onClick={() => navigate('/mood-chart')}
-      >
-        <BarChart className="icon" /> View Mood Chart
-      </motion.button>
-
-      {message && (
-        <motion.div className={`feedback ${message.includes('Error') || message.includes('❌') ? 'error' : 'success'}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-          {message}
-        </motion.div>
+      {/* --- Display Feedback --- */}
+      {isLoading ? (
+        <p className="feedback">Your AI companion is reflecting, please wait...</p>
+      ) : message && (
+        <p className={`feedback ${isError ? 'error' : 'success'}`}>{message}</p>
       )}
-    </motion.div>
+      
+      {/* --- Display AI Dialogue --- */}
+      {aiResponse && !isLoading && (
+        <div className="ai-dialogue-container" style={{ margin: '2rem 0', padding: '1rem', background: 'rgba(0,0,0,0.2)', borderRadius: '10px', borderLeft: '3px solid #00d9c0' }}>
+          <p style={{ margin: 0, fontStyle: 'italic', color: '#f0f0f0' }}>"{aiResponse}"</p>
+        </div>
+      )}
+
+      {/* --- Display the Generated Art --- */}
+      {generatedImage && !isLoading && (
+        <div className="mood-art-container" style={{ marginTop: '2rem', textAlign: 'center' }}>
+          <h3>Your MoodScape</h3>
+          <img 
+            src={generatedImage} 
+            alt="AI-generated art representing your mood" 
+            style={{ maxWidth: '100%', borderRadius: '15px', marginTop: '1rem', border: '1px solid rgba(255, 255, 255, 0.2)' }} 
+          />
+        </div>
+      )}
+      
+      <Link to="/mood-chart" className="chart-toggle-button" style={{ marginTop: '2rem' }}>
+        View Mood Trends
+      </Link>
+    </div>
   );
-};
+}
 
 export default MoodForm;
-
-
-

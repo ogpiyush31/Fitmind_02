@@ -1,3 +1,4 @@
+// src/pages/Register.jsx
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./style.css";
@@ -10,33 +11,26 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // ✅ Use correct env variable
   const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api`;
 
   const handleRegister = async (e) => {
     e.preventDefault();
     setError("");
-
     if (!email || !username || !password) {
       setError("All fields are required.");
       return;
     }
-
     setLoading(true);
-
     try {
       const response = await fetch(`${API_BASE_URL}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, username, password }),
       });
-
       const data = await response.json();
-
       if (!response.ok) {
         throw new Error(data.message || "Registration failed");
       }
-
       alert("✅ Registered successfully! You can now log in.");
       navigate("/Login");
     } catch (err) {
@@ -48,11 +42,10 @@ const Register = () => {
 
   return (
     <div className="login-container">
-      <div className="title-banner">Register - FitMind</div>
-
       <div className="login-card">
         <div className="avatar-wrapper">
           <span className="emoji" role="img" aria-label="brain">🧠</span>
+          <div className="avatar-title">FitMind</div>
         </div>
 
         <form className="login-form" onSubmit={handleRegister} noValidate>

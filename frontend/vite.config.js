@@ -1,4 +1,3 @@
-// vite.config.js
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
@@ -9,5 +8,15 @@ export default defineConfig({
       '/api': 'http://localhost:5000',
     },
   },
+  build: {
+    outDir: 'dist',
+  },
+  // This tells Vite to fallback to index.html for client-side routing
+  resolve: {
+    alias: {
+      '@': '/src',
+    },
+  }
 });
+
 

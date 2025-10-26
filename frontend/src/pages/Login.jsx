@@ -1,3 +1,4 @@
+// src/pages/Login.jsx
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./style.css";
@@ -9,37 +10,28 @@ const Login = () => {
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
-
-  // ✅ Corrected environment variable
   const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api`;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-
     if (!email || !password) {
       setError("Please fill in both fields.");
       return;
     }
-
     setLoading(true);
-
     try {
       const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-
       const data = await response.json();
-
       if (!response.ok) {
         throw new Error(data.message || "Login failed");
       }
-
       localStorage.setItem("userId", data.userId);
       localStorage.setItem("username", data.username);
-
       alert("✅ Login successful!");
       navigate("/");
     } catch (err) {
@@ -51,11 +43,10 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <div className="title-banner">Login - FitMind</div>
-
       <div className="login-card">
         <div className="avatar-wrapper">
           <span className="emoji" role="img" aria-label="mind">🧠</span>
+          <div className="avatar-title">FitMind</div>
         </div>
 
         <form className="login-form" onSubmit={handleSubmit} noValidate>
@@ -84,7 +75,7 @@ const Login = () => {
           {error && <p className="error-msg">{error}</p>}
 
           <button type="submit" disabled={loading}>
-            {loading ? "Logging in..." : "Log in"}
+            {loading ? "Logging in..." : "Log In"}
           </button>
         </form>
 

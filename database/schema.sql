@@ -7,12 +7,14 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create the 'moods' table, with full structure for backend compatibility
+
 CREATE TABLE moods (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     mood VARCHAR(50) NOT NULL,
     notes TEXT NOT NULL,
+    journal TEXT, 
+    image_url TEXT, 
     sentiment FLOAT,
     subjectivity FLOAT,
     date DATETIME DEFAULT CURRENT_TIMESTAMP,

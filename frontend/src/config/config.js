@@ -1,6 +1,7 @@
-const CONFIG = {
-  API_BASE_URL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'
-};
+// src/configuration.js
+const BASE_URL = "http://localhost:5002"; // ✅ Local backend
 
-export default CONFIG;
+export default BASE_URL;
+
+
 
